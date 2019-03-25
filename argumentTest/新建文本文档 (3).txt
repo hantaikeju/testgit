@@ -1,0 +1,112 @@
+Argument
+{
+ public Original{get;} 接收命令
+ public Switch{get;private;} 用于存储：和：前面的内容
+public SubArgumentring ;  初始化new ReadonlyCollection<string>(subArguments);
+private subArguments;    用于存储拆解后 ：后面的命令内容
+public Argument(original);  初始化以及调用PARSE
+private Parse(){
+先判断Original是否为空
+判断Original 第一个符号是否为/或-
+{声明一个CHAR [] switchchar = {/,-}  sitchchar.Contains(Original[0])}
+声明 string switchString = Original.Substring(1);去掉/或-
+声明 string subArgsSting = string.Empty;
+声明 colon = switchString.IndexOf(';');用于找到；的位置读取：后面的内容
+if(colon>=0)
+{
+subArgsString = switchString.Substring(colon+1);读取：后面的内容
+switchString = switchString.Substring(0,colon);读取：以及前面的内容
+}
+Switch = switchString;
+subArguments.AddRange(subArgsString.Split(;));
+
+
+}  拆解命令
+
+}
+
+
+
+
+ArgumentDefinition
+{
+定义的一个类型，包含三个字段 一个FUNC委托，以及一个返回值为BOOL类型的方法 方法用了委托
+public string ArgumentSwitch{get;}
+public string Syntax{get;}
+public string Description{get;}
+public Func<Argument,bool> Verifier{get;}
+ArgumentDefinition(){}初始化上面四个参数
+public bool Verify(Argument arg)=>Verifier(arg);
+
+}
+
+ArgumentSemanticAnalyzer
+{
+private List<ArgumentDeinition> argumentDefinitions    存储ArgumentDefinition类型的链表
+private Dictionary<string,Action<Argument>> argumentActions   字段。key存储为string类型 value为Action<Argument>
+
+public ReadOnlyCollection <Argument> UnrecognizedArguments 存储未定义参数的
+public ReadOnlyCollection <Argument> MalformedArguments  存储格式错误的
+public ReadOnlyCollection <Argument> RepeatedArguments  存储正确的命令行
+
+public ReadOnlyCollection <ArgumentDefinition> ArgumentDefinitions 存储ArgumentDefinition类型
+
+public IEnumerable<string> DefinedSwitches=>      一个接口 实现的功能是把argumentDefinitions 里面的内容 存储到argumentDefinition.ArgumentSwitch
+
+public void AddArgumentVerifier(ArgumentDefinition verifier)  一个返回值为空 的方法 实现了argumentDefinitions.Add(verifier); 即List.Add方法 往argumentDefinitions添加元素
+
+public void RemoveArgumentVerfier(ArgumentDefinition verifier) {
+   var verifiersToRemove = from v in argumentDefinitions 
+                           where v.ArgumentSwitch == verifier.ArgumentSwitch     用于移除List链表的元素，依据是和传递进来值的ArgumentSwitch一样的值
+					select v;
+
+foreach(var v in verifiersToRemove)
+ argumentDefinitions.Remove(v);       因为 SELECT过后 可能有多个元素  所以用FOREACH循环来进行移除
+
+  }
+
+public void AddArgumentAction(string argumentSwitch ,Action<Argument> action)=> argumentActions.Add(argumentSwitch,action)  对于解析出来的命令 添加动作
+public void RemoveArgumentAction(string argumentSwitch)    
+{
+argumentActions.Keys.Contains(agumentSwitch)
+argumentActions.Remove   
+
+}
+
+public bool VerifyArguments(IEnumerable<Argument> arguments)
+{
+  argumentDeinitions.Any   没有的话 return false;
+
+用UnrecognizenArguments 来判断是否存在未知参数
+this.UnrecognizeArgments = (
+			from argument in arguments
+			where !DefinedStitches.Contains(argument.Switch.ToUpper())
+			select argument
+			).ToList().AsReadOnly();
+
+用MalformedArguments 来判断是否格式错误
+
+用RepeatedArguments 来存储正确命令行参数
+
+
+this.RepeatedArguments=
+			(
+			from argumentGroup in from argument in arguments
+				where !argument.IsSimple
+			group argument by argument.Switch.ToUpper()
+				where argumentGroup.Count()>1
+			select argumentGroup).SelectMany(ag=>ag).ToList().AsReadOnly();
+
+
+
+					)嵌套了一重查询，另外SelectMan 替代了Foreach 的双重循环
+					 这里相当于argumentGroup.SelectMany(ag=>ag)
+
+
+}
+
+
+
+
+   
+}

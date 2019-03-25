@@ -1,0 +1,131 @@
+定义两个类，来模拟嵌套查询的过程
+class Studeng
+{
+public int Score{get;set;}
+
+public Student(int score)
+{
+this.Score =score;
+}
+
+}
+
+
+class Teacher
+{
+
+public string Name{get;set;}
+public List<Student>Students;
+public Teacher(string order,List<Student> students)
+{
+this.Name=order;
+this.Students = students;
+
+}
+
+}
+
+List<Teacher> teachers = new List<Teacher>
+{
+new Teaher("a",new List<Student>{ new Student(100),new Student(90),new Student(30)}),
+new Teaher("b",new List<Student>{ new Student(100),new Student(90),new Student(60)}),
+new Teaher("c",new List<Student>{ new Student(100),new Student(90),new Student(40)}),
+new Teaher("d",new List<Student>{ new Student(100),new Student(90),new Student(60)}),
+new Teaher("e",new List<Student>{ new Student(100),new Student(90),new Student(50)}),
+new Teaher("f",new List<Student>{ new Student(100),new Student(90),new Student(60)}),
+new Teaher("g",new List<Student>{ new Student(100),new Student(90),new Student(60)}),
+
+};
+
+question1:找出里面不及格的集合
+双重Foreach循环写法
+List<Student> studentList=new List<Student>();
+foreach (var  t in teachers)
+{
+
+	foreach (var s in t.Students)
+	{
+		if(s.Score<60)
+		studentList.Add(s);
+	}
+
+}
+
+LINQ写法
+var list1 = from t in teachers
+		from s in t.Students
+		where s.Score<60
+		select s;
+
+Lamda表达式写法
+ var list2=teachers.SelectMany(t=>t.Students),Where(s=>s.Score<60);
+这里的SelectMany 调用了这个方法：
+public static IEnumerable<TResult> SelectMany<TSource,TRESULT>
+(
+
+THIS IEnumerable<TSource> source,
+Fun<TSource,IEnumerable<TResult>> selector
+)
+
+这个用于IEnumerable<T>的扩张方法接受一个Func委托，根据需要再返回另一个IEnumerable<T>
+
+关于SelectMany的另一个重载
+public static IEnumerable<TResult> SelectMany(TSource,TCollection,TResult)
+(
+this.IEnumerable<TSource> source,
+FUNC<TSource,IEnumerable<TCollection>> collectionSelector,
+Func<TSource,TCollection,TResult> resultSelector
+
+)
+
+var list3 = teachers.SelectMany(
+		t=>t.students,
+		(t,s)=>new (t.Name,s.Score)
+		.Where(n=>n.Score<60);
+
+
+
+		)
+
+Select是把要遍历的集合IEnumerable<T>逐一遍历，每次返回一个T，合并之后直接返回一个IEnumerable<T>，
+而SelectMany则把原有的集合IEnumerable<T>每个元素遍历一遍，
+每次返回一个IEnumerable<T>，把这些IEnumerable<T>的“T”合并之后整体返回一个IEnumerable<T>。
+
+
+studengList{
+
+StudentID, StudentName Age
+}
+var selectResult = from s in studentList
+			select new {Name=s.StudentName, Age=s.Age}
+
+foreach(var item in selectResult)
+console.wrieline({0},{1},item.Name,item.Age)
+
+
+var selectResult = studengList.Select(s=>new{Name=s.StudentName,Age=s.Age});
+
+class Student
+{
+Score Student{this.Score=score;}
+}
+
+
+class Teacher
+{
+
+Name
+List<Student> Students;
+
+
+
+}
+
+
+var a = from t in teachers
+        fron s in t.Students
+		where s.Score<60
+		select s;
+
+
+var b = teachers.SelectMany(t=>t.students).where(s=>s.Score<60);

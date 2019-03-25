@@ -1,0 +1,7 @@
+G:\C#编码例程\CompareTest\CompareTest\obj\Debug\CompareTest.csprojAssemblyReference.cache
+G:\C#编码例程\CompareTest\CompareTest\obj\Debug\CompareTest.csproj.CoreCompileInputs.cache
+G:\C#编码例程\CompareTest\CompareTest\bin\Debug\CompareTest.exe.config
+G:\C#编码例程\CompareTest\CompareTest\bin\Debug\CompareTest.exe
+G:\C#编码例程\CompareTest\CompareTest\bin\Debug\CompareTest.pdb
+G:\C#编码例程\CompareTest\CompareTest\obj\Debug\CompareTest.exe
+G:\C#编码例程\CompareTest\CompareTest\obj\Debug\CompareTest.pdb
